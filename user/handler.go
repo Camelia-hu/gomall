@@ -6,6 +6,7 @@ import (
 	"github.com/Camelia-hu/gomall/dao"
 	"github.com/Camelia-hu/gomall/module"
 	user "github.com/Camelia-hu/gomall/user/kitex_gen/user"
+	"github.com/Camelia-hu/gomall/utils"
 	"gorm.io/gorm"
 )
 
@@ -27,6 +28,8 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterReq) (
 	}
 	usr.Email = req.Email
 	usr.Password = req.Password
+	salt := utils.GenerateSalt()
+	usr.Password = utils.HashPassword(usr.Password, salt)
 	dao.DB.Create(&usr)
 	var newusr module.User
 	dao.DB.Where("email = ?", usr.Email).First(&newusr)
