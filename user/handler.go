@@ -29,10 +29,12 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterReq) (
 	usr.Email = req.Email
 	usr.Password = req.Password
 	salt := utils.GenerateSalt()
+	usr.Salt = salt
 	usr.Password = utils.HashPassword(usr.Password, salt)
 	dao.DB.Create(&usr)
 	var newusr module.User
 	dao.DB.Where("email = ?", usr.Email).First(&newusr)
+	resp = &user.RegisterResp{}
 	resp.UserId = int32(newusr.ID)
 	return resp, nil
 }
@@ -47,9 +49,10 @@ func (s *UserServiceImpl) Login(ctx context.Context, req *user.LoginReq) (resp *
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, errors.New("该用户名不存在喵～")
 	}
-	if req.Password != usr.Password {
+	if utils.HashPassword(req.Password, usr.Salt) != usr.Password {
 		return nil, errors.New("密码输入错误喵～")
 	}
+	resp = &user.LoginResp{}
 	resp.UserId = int32(usr.ID)
 	return resp, nil
 }

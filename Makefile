@@ -1,3 +1,4 @@
+
 .PHONY: kitex-auth
 
 kitex-auth:
@@ -17,9 +18,17 @@ kitex-user:
 .PHONY: kitex-cart
 
 kitex-cart:
-	@cp proto/cart.proto cart && cd cart && kitex -module github.com/Camelia-hu/gomall -service cart cart.proto && rm -rf cart.proto
+	@cp cart.proto cart && cd cart && kitex -module github.com/Camelia-hu/gomall -service cart cart.proto && rm -rf cart.proto
+
+.PHONY: kitex-order
+
+kitex-order:
+	@cp order.proto order && cd order && kitex -module github.com/Camelia-hu/gomall -service order order.proto && rm -rf order.proto
 
 .PHONY: docker
 
 docker:
 	@sudo docker compose up -d
+
+
+

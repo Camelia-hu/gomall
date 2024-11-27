@@ -1,5 +1,5 @@
 data :
   mysql :
-    dsn : "root:15926653820@Hu@tcp(127.0.0.1:3306)/tuan?charset=utf8mb4&parseTime=True&loc=Local"
+    dsn : "root:15926653820@Hu@tcp(127.0.0.1:3306)/mall?charset=utf8mb4&parseTime=True&loc=Local"
   jwt :
     key : "I"

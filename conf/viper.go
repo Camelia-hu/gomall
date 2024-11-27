@@ -28,7 +28,7 @@ func ViperGet(path string) *viper.Viper {
 }
 
 func ViperInit() {
-	env_config := flag.String("config", "config/app.yml", "")
+	env_config := flag.String("config", "conf/conf.yaml", "")
 	flag.Parse()
 	conf := ViperGet(*env_config)
 	Conf = conf

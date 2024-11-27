@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/Camelia-hu/gomall/conf"
+	"github.com/Camelia-hu/gomall/dao"
 	"github.com/Camelia-hu/gomall/product/kitex_gen/product/productcatalogservice"
 	"github.com/cloudwego/kitex/pkg/registry"
 	"github.com/cloudwego/kitex/server"
@@ -10,6 +12,8 @@ import (
 )
 
 func main() {
+	conf.ViperInit()
+	dao.MysqlInit()
 	r, err := consul.NewConsulRegister("127.0.0.1:8500")
 	if err != nil {
 		log.Println("product service register err :", err)

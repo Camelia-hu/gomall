@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/Camelia-hu/gomall/auth/kitex_gen/auth/authservice"
+	"github.com/Camelia-hu/gomall/conf"
+	"github.com/Camelia-hu/gomall/dao"
 	"github.com/cloudwego/kitex/pkg/registry"
 	"github.com/cloudwego/kitex/server"
 	consul "github.com/kitex-contrib/registry-consul"
@@ -10,6 +12,8 @@ import (
 )
 
 func main() {
+	conf.ViperInit()
+	dao.MysqlInit()
 	r, err := consul.NewConsulRegister("127.0.0.1:8500")
 	if err != nil {
 		log.Println("auth service register err : ", err)
