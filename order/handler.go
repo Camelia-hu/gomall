@@ -5,7 +5,6 @@ import (
 	"github.com/Camelia-hu/gomall/dao"
 	"github.com/Camelia-hu/gomall/module"
 	order "github.com/Camelia-hu/gomall/order/kitex_gen/order"
-	"github.com/google/uuid"
 	"log"
 )
 
@@ -15,7 +14,6 @@ type OrderServiceImpl struct{}
 // PlaceOrder implements the OrderServiceImpl interface.
 func (s *OrderServiceImpl) PlaceOrder(ctx context.Context, req *order.PlaceOrderReq) (resp *order.PlaceOrderResp, err error) {
 	var orders []*module.Order
-	Uuid := uuid.New().String()
 	address := req.Address.Country + req.Address.State + req.Address.City + req.Address.StreetAddress
 	for _, item := range req.OrderItems {
 		Order := &module.Order{
@@ -23,10 +21,6 @@ func (s *OrderServiceImpl) PlaceOrder(ctx context.Context, req *order.PlaceOrder
 			UserCurrency: req.UserCurrency,
 			Address:      address,
 			Email:        req.Email,
-			UUid:         Uuid,
-			Cost:         item.Cost,
-			ProductId:    item.Item.ProductId,
-			Quantity:     item.Item.Quantity,
 		}
 		orders = append(orders, Order)
 	}

@@ -1,12 +1,21 @@
 package module
 
+import "gorm.io/gorm"
+
 type Order struct {
-	Uid          uint32  `json:"uid"`
-	UserCurrency string  `json:"userCurrency"`
-	Address      string  `json:"address"`
-	Email        string  `json:"email"`
-	UUid         string  `json:"UUid"`
-	Cost         float32 `json:"cost"`
-	ProductId    uint32  `json:"productId"`
-	Quantity     int32   `json:"quantity"`
+	gorm.Model
+	Uid          uint32 `json:"uid"`
+	UserCurrency string `json:"userCurrency"`
+	Address      string `json:"address"`
+	Email        string `json:"email"`
+	OrderItems   []OrderItem
+}
+
+type OrderItem struct {
+	gorm.Model
+	OrderID   uint    `json:"orderID"`
+	Cost      float32 `json:"cost"`
+	ProductId uint32  `json:"productId"`
+	Quantity  int32   `json:"quantity"`
+	Order     Order   `gorm:"foreignKey:OrderID;references:ID"`
 }

@@ -34,4 +34,8 @@ func MysqlInit() {
 	if err != nil {
 		log.Println(err)
 	}
+	err = DB.AutoMigrate(&module.OrderItem{})
+	if err != nil {
+		log.Println(err)
+	}
 }
