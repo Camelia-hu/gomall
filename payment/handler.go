@@ -50,17 +50,19 @@ func (s *PaymentServiceImpl) Charge(ctx context.Context, req *payment.ChargeReq)
 
 // CreateCredit implements the PaymentServiceImpl interface.
 func (s *PaymentServiceImpl) CreateCredit(ctx context.Context, req *payment.CreateCreditReq) (resp *payment.CreateCreditResp, err error) {
-	err = dao.DB.Create(&module.CreditCard{
+	var credit module.CreditCard
+	credit = module.CreditCard{
 		Uid:                       uint32(req.Uid),
 		Money:                     req.Money,
 		CreditCardNumber:          req.CreditCardNumber,
 		CreditCardCvv:             req.CreditCardCvv,
 		CreditCardExpirationYear:  req.CreditCardExpirationYear,
 		CreditCardExpirationMonth: req.CreditCardExpirationMonth,
-	}).Error
+	}
+	err = dao.DB.Create(&credit).Error
 	if err != nil {
 		return nil, err
 	}
-	resp = &payment.CreateCreditResp{Is: true}
+	resp = &payment.CreateCreditResp{Is: true, Id: int32(credit.ID)}
 	return resp, nil
 }

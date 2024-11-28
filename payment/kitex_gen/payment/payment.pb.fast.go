@@ -94,6 +94,11 @@ func (x *CreateCreditResp) FastRead(buf []byte, _type int8, number int32) (offse
 		if err != nil {
 			goto ReadFieldError
 		}
+	case 2:
+		offset, err = x.fastReadField2(buf, _type)
+		if err != nil {
+			goto ReadFieldError
+		}
 	default:
 		offset, err = fastpb.Skip(buf, _type, number)
 		if err != nil {
@@ -109,6 +114,11 @@ ReadFieldError:
 
 func (x *CreateCreditResp) fastReadField1(buf []byte, _type int8) (offset int, err error) {
 	x.Is, offset, err = fastpb.ReadBool(buf, _type)
+	return offset, err
+}
+
+func (x *CreateCreditResp) fastReadField2(buf []byte, _type int8) (offset int, err error) {
+	x.Id, offset, err = fastpb.ReadInt32(buf, _type)
 	return offset, err
 }
 
@@ -318,6 +328,7 @@ func (x *CreateCreditResp) FastWrite(buf []byte) (offset int) {
 		return offset
 	}
 	offset += x.fastWriteField1(buf[offset:])
+	offset += x.fastWriteField2(buf[offset:])
 	return offset
 }
 
@@ -326,6 +337,14 @@ func (x *CreateCreditResp) fastWriteField1(buf []byte) (offset int) {
 		return offset
 	}
 	offset += fastpb.WriteBool(buf[offset:], 1, x.GetIs())
+	return offset
+}
+
+func (x *CreateCreditResp) fastWriteField2(buf []byte) (offset int) {
+	if x.Id == 0 {
+		return offset
+	}
+	offset += fastpb.WriteInt32(buf[offset:], 2, x.GetId())
 	return offset
 }
 
@@ -497,6 +516,7 @@ func (x *CreateCreditResp) Size() (n int) {
 		return n
 	}
 	n += x.sizeField1()
+	n += x.sizeField2()
 	return n
 }
 
@@ -505,6 +525,14 @@ func (x *CreateCreditResp) sizeField1() (n int) {
 		return n
 	}
 	n += fastpb.SizeBool(1, x.GetIs())
+	return n
+}
+
+func (x *CreateCreditResp) sizeField2() (n int) {
+	if x.Id == 0 {
+		return n
+	}
+	n += fastpb.SizeInt32(2, x.GetId())
 	return n
 }
 
@@ -621,6 +649,7 @@ var fieldIDToName_CreateCreditReq = map[int32]string{
 
 var fieldIDToName_CreateCreditResp = map[int32]string{
 	1: "Is",
+	2: "Id",
 }
 
 var fieldIDToName_CreditCardInfo = map[int32]string{
