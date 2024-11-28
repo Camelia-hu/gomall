@@ -25,6 +25,16 @@ kitex-cart:
 kitex-order:
 	@cp order.proto order && cd order && kitex -module github.com/Camelia-hu/gomall -service order order.proto && rm -rf order.proto
 
+.PHONY: kitex-payment
+
+kitex-payment:
+	@cp payment.proto payment && cd payment && kitex -module github.com/Camelia-hu/gomall -service payment payment.proto && rm -rf payment.proto
+
+.PHONY: kitex-checkout
+
+kitex-checkout:
+	@cp checkout.proto checkout && cd checkout && kitex -module github.com/Camelia-hu/gomall -service checkout checkout.proto && rm -rf checkout.proto
+
 .PHONY: docker
 
 docker:

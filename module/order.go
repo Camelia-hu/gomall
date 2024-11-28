@@ -4,11 +4,11 @@ import "gorm.io/gorm"
 
 type Order struct {
 	gorm.Model
-	Uid          uint32 `json:"uid"`
-	UserCurrency string `json:"userCurrency"`
-	Address      string `json:"address"`
-	Email        string `json:"email"`
-	OrderItems   []OrderItem
+	Uid          uint32      `json:"uid"`
+	UserCurrency string      `json:"userCurrency"`
+	Address      string      `json:"address"`
+	Email        string      `json:"email"`
+	OrderItems   []OrderItem `gorm:"constraint:OnDelete:CASCADE;"`
 }
 
 type OrderItem struct {

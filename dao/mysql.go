@@ -38,4 +38,12 @@ func MysqlInit() {
 	if err != nil {
 		log.Println(err)
 	}
+	err = DB.AutoMigrate(&module.Payment{})
+	if err != nil {
+		log.Println(err)
+	}
+	err = DB.AutoMigrate(&module.CreditCard{})
+	if err != nil {
+		log.Println(err)
+	}
 }
