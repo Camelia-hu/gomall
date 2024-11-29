@@ -14,7 +14,7 @@ require (
 	gorm.io/gorm v1.25.12
 
 )
-
+//1
 require (
 	github.com/apache/thrift v0.13.0 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
