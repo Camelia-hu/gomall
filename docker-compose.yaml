@@ -1,19 +1,4 @@
 services:
-  consul:
-    image: "hashicorp/consul:1.15.4"
-    ports:
-      - "8500:8500"
-  mysql:
-    image: "mysql:8.0.39"
-    ports:
-      - "3307:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=041212
-      - MYSQL_DATABASE=tiktok_e-commence
-  redis:
-    image: "redis:7.0.15"
-    ports:
-      - "6380:6379"
   zoo1:
     image: confluentinc/cp-zookeeper:7.3.2
     hostname: zoo1
@@ -58,3 +43,60 @@ services:
       - kafka1
     environment:
       DYNAMIC_CONFIG_ENABLED: "TRUE"
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger-all-in-one
+    ports:
+      - "5775:5775"  # UDP端口，用于 Jaeger Agent 监听
+      - "6831:6831/udp"  # Jaeger Agent 的 UDP端口
+      - "6832:6832/udp"  # Jaeger Agent 的备用UDP端口
+      - "5778:5778"  # Jaeger Agent HTTP端口
+      - "16686:16686"  # Jaeger UI 的端口
+      - "14250:14250"  # gRPC端口，用于接收 traces
+      - "14268:14268"  # HTTP端口，用于接收 traces
+      - "4317:4317"  # OpenTelemetry gRPC端口
+      - "4318:4318"  # OpenTelemetry HTTP端口
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_HTTP_PORT=9411  # Zipkin兼容HTTP端口
+    networks:
+      - jaeger-network
+    command: ["--collector.zipkin.http-port=9411", "--collector.grpc-port=14250", "--metrics-backend=prometheus"]
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082" # 映射容器端口到宿主机
+  cart:
+    build:
+      context: ./cart
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+  user:
+    build:
+      context: ./user
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+  product:
+    build:
+      context: ./product
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+  order:
+    build:
+      context: ./order
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+  payment:
+    build:
+      context: ./payment
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"
+networks:
+  jaeger-network:
+    driver: bridge

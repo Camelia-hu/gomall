@@ -8,5 +8,5 @@ import (
 func main() {
 	conf.ViperInit()
 	dao.MysqlInit()
-
+	dao.RedisInit()
 }
